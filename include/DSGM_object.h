@@ -72,7 +72,7 @@ typedef struct {
 #include "DSGM_room.h"
 
 extern void *me;
-DSGM_ObjectInstance *DSGM_invalidObjectInstance;
+extern DSGM_ObjectInstance *DSGM_invalidObjectInstance;
 
 void DSGM_SetupObjectGroups(DSGM_Room *room, u8 screen, int objectGroupCount);
 void DSGM_SetupObjectInstances(DSGM_ObjectGroup *group, DSGM_Object *object, u8 screen, int objectInstanceCount, ...);
@@ -95,25 +95,18 @@ void DSGM_DeleteObjectInstanceFull(DSGM_Room *room, DSGM_ObjectInstance **meP, D
 DSGM_ObjectInstanceRelation DSGM_GetObjectInstanceRelationFull(DSGM_Room *room, DSGM_ObjectInstance *me);
 
 #define DSGM_GetMeFromObjectInstanceRelation(relation) DSGM_GetMeFromObjectInstanceRelationFull(&DSGM_Rooms[DSGM_currentRoom], me)
-void *DSGM_GetMeFromObjectInstanceRelationFull(DSGM_Room *room, DSGM_ObjectInstanceRelation *relation);
-
 #define DSGM_AddCollisionEvent(object, collider, function) DSGM_AddCollisionEvent(object, collider, (DSGM_CollisionEventFunction)function)
 void (DSGM_AddCollisionEvent)(DSGM_Object *object, DSGM_Object *collider, DSGM_CollisionEventFunction function);
 
 #define DSGM_StylusOverObjectInstance(me) DSGM_StylusOverObjectInstanceFull(&DSGM_Rooms[DSGM_currentRoom], (DSGM_ObjectInstance *)me)
-inline bool DSGM_StylusOverObjectInstanceFull(DSGM_Room *room, DSGM_ObjectInstance *me);
 
 #define DSGM_ObjectInstanceOnScreen(me) DSGM_ObjectInstanceOnScreenFull(&DSGM_Rooms[DSGM_currentRoom], (DSGM_ObjectInstance *)me)
-inline bool DSGM_ObjectInstanceOnScreenFull(DSGM_Room *room, DSGM_ObjectInstance *me);
 
 #define DSGM_ObjectInstanceCollision(me, collider) DSGM_ObjectInstanceCollision((DSGM_ObjectInstance *)me, (DSGM_ObjectInstance *)collider)
-inline bool (DSGM_ObjectInstanceCollision)(DSGM_ObjectInstance *me, DSGM_ObjectInstance *collider);
 
 #define DSGM_GetObjectInstanceRotset(me) DSGM_GetObjectInstanceRotset((DSGM_ObjectInstance *)me)
-inline int (DSGM_GetObjectInstanceRotset)(DSGM_ObjectInstance *me);
 
 #define DSGM_GetObjectInstanceID(me) DSGM_GetObjectInstanceIDFull(&DSGM_Rooms[DSGM_currentRoom], (DSGM_ObjectInstance *)me)
-inline int DSGM_GetObjectInstanceIDFull(DSGM_Room *room, DSGM_ObjectInstance *me);
 
 #define DSGM_InitObjectInstanceRotScale(me) DSGM_InitObjectInstanceRotScale((DSGM_ObjectInstance *)me)
 void (DSGM_InitObjectInstanceRotScale)(DSGM_ObjectInstance *me);

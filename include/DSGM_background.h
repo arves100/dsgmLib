@@ -49,13 +49,6 @@ typedef struct {
 	u16 *largeBackgroundMap;
 } DSGM_Layer;
 
-inline void DSGM_LockBackgroundPalette(u8 screen);
-inline void DSGM_UnlockBackgroundPalette(u8 screen);
-inline unsigned short *DSGM_GetBackgroundPalette(u8 screen, int layerNumber);
-inline void DSGM_SetScreenColor(u8 screen, u16 color);
-
-inline bool DSGM_BackgroundIsNitroFull(DSGM_Background *background);
-
 void DSGM_InitDrawableBackground(DSGM_Layer *layer);
 
 void DSGM_LoadBackgroundFull(DSGM_Layer *layer);
@@ -66,28 +59,13 @@ void DSGM_LoadBackgroundRAMFull(DSGM_Layer *layer);
 void DSGM_ScrollBackgroundFull(DSGM_View *view, DSGM_Layer *layer);
 
 #define DSGM_GetLayerPriority(screen, layerNumber) DSGM_GetLayerPriorityFull(&DSGM_layers[screen][layerNumber])
-inline unsigned int DSGM_GetLayerPriorityFull(DSGM_Layer *layer);
-
 #define DSGM_SetLayerPriority(screen, layerNumber, priority) DSGM_SetLayerPriorityFull(&DSGM_layers[screen][layerNumber], priority)
-inline void DSGM_SetLayerPriorityFull(DSGM_Layer *layer, unsigned int priority);
 
-inline BgSize DSGM_GetBGSize(u8 screen, int layerNumber);
 int DSGM_GetBGWidth(u8 screen, int layerNumber);
 int DSGM_GetBGHeight(u8 screen, int layerNumber);
 
 #define DSGM_GetTile(screen, layerNumber, x, y) DSGM_GetTileFull(&DSGM_layers[screen][layerNumber], x, y)
-inline u16 DSGM_GetTileFull(DSGM_Layer *layer, int x, int y);
-
 #define DSGM_SetTile(screen, layerNumber, x, y, tile) DSGM_SetTileFull(&DSGM_layers[screen][layerNumber], x, y, tile)
-inline void DSGM_SetTileFull(DSGM_Layer *layer, int x, int y, u16 tile);
-
-inline void DSGM_SetTileForceVRAM(DSGM_Layer *layer, int x, int y, u16 tile);
-
 #define DSGM_SetRotationCenter(screen, x, y) DSGM_SetRotationCenterFull(&DSGM_layers[screen][3], x, y)
-inline void DSGM_SetRotationCenterFull(DSGM_Layer *layer, int x, int y);
-
 #define DSGM_RotateBackground(screen, angle) DSGM_RotateBackgroundFull(&DSGM_layers[screen][3], angle)
-inline void DSGM_RotateBackgroundFull(DSGM_Layer *layer, int angle);
-
 #define DSGM_ScaleBackground(screen, x, y) DSGM_ScaleBackgroundFull(&DSGM_layers[screen][3], x, y)
-inline void DSGM_ScaleBackgroundFull(DSGM_Layer *layer, int x, int y);

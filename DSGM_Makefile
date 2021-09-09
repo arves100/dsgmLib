@@ -9,6 +9,7 @@ endif
 include $(DEVKITARM)/ds_rules
 
 DSGMLIB	:=	$(DEVKITPRO)/dsgmLib
+DSGMWIFI := $(DEVKITPRO)/dsgmDSWiFi/release
 
 #---------------------------------------------------------------------------------
 # TARGET is the name of the output
@@ -21,18 +22,30 @@ TARGET		:=	$(shell basename $(CURDIR))
 BUILD		:=	build
 SOURCES		:=	source
 DATA		:=	data
-INCLUDES	:=	include $(DSGMLIB)/include
+INCLUDES	:=	include $(DSGMLIB)/include $(DSGMWIFI)/include
 NITRODATA	:=	nitrofiles
 MAXMOD_SOUNDBANK := music
+GRAPHICS	:=	graphics
 
 #---------------------------------------------------------------------------------
 # ROM header properties
 #---------------------------------------------------------------------------------
-GAME_TITLE	:=	$(notdir $(OUTPUT))
-GAME_SUBTITLE1	:=	
-GAME_SUBTITLE2	:=	
 
+ifeq ($(strip $(GAME_TITLE)),)
+GAME_TITLE	:=	$(notdir $(OUTPUT))
+endif
+
+ifeq ($(strip $(GAME_SUBTITLE1)),)
+GAME_SUBTITLE1	:=	
+endif
+
+ifeq ($(strip $(GAME_SUBTITLE2)),)
+GAME_SUBTITLE2	:=	
+endif
+
+ifeq ($(strip $(GAME_ICON)),)
 GAME_ICON      :=      $(DSGMLIB)/icon.bmp
+endif
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -65,7 +78,7 @@ LIBS	:= 	-ldsgm -ldsgmdswifi9 -lfilesystem -lfat -lnds9 -lmm9
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBNDS) $(DSGMLIB)
+LIBDIRS	:=	$(LIBNDS) $(DSGMLIB) $(DSGMWIFI)
  
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
@@ -77,7 +90,8 @@ ifneq ($(BUILD),$(notdir $(CURDIR)))
 export OUTPUT	:=	$(CURDIR)/$(TARGET)
 
 export VPATH	:=	$(foreach dir,$(SOURCES),$(CURDIR)/$(dir)) \
-					$(foreach dir,$(DATA),$(CURDIR)/$(dir))
+					$(foreach dir,$(DATA),$(CURDIR)/$(dir)) \
+					$(foreach dir,$(GRAPHICS),$(CURDIR)/$(dir))
 
 export DEPSDIR	:=	$(CURDIR)/$(BUILD)
 
@@ -89,7 +103,8 @@ CFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.c)))
 CPPFILES	:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.cpp)))
 SFILES		:=	$(foreach dir,$(SOURCES),$(notdir $(wildcard $(dir)/*.s)))
 BINFILES	:=	$(foreach dir,$(DATA),$(notdir $(wildcard $(dir)/*.*)))
- 
+PNGFILES	:=	$(foreach dir,$(GRAPHICS),$(notdir $(wildcard $(dir)/*.png)))
+
 export AUDIOFILES	:=	$(foreach dir,$(notdir $(wildcard $(MAXMOD_SOUNDBANK)/*.*)),$(CURDIR)/$(MAXMOD_SOUNDBANK)/$(dir))
  
 #---------------------------------------------------------------------------------
@@ -107,12 +122,13 @@ endif
 #---------------------------------------------------------------------------------
 
 export OFILES	:=	$(addsuffix .o,$(BINFILES)) \
-			$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
+					$(PNGFILES:.png=.o) \
+					$(CPPFILES:.cpp=.o) $(CFILES:.c=.o) $(SFILES:.s=.o)
  
 export INCLUDE	:=	$(foreach dir,$(INCLUDES),-I$(CURDIR)/$(dir)) \
-			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-			$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
-			-I$(CURDIR)/$(BUILD)
+					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					$(foreach dir,$(LIBDIRS),-I$(dir)/include) \
+					-I$(CURDIR)/$(BUILD)
  
 export LIBPATHS	:=	$(foreach dir,$(LIBDIRS),-L$(dir)/lib)
  
@@ -130,6 +146,8 @@ clean:
 
 #---------------------------------------------------------------------------------
 else
+
+DEPENDS	:=	$(OFILES:.o=.d)
  
 #---------------------------------------------------------------------------------
 # main targets
@@ -156,8 +174,14 @@ endef
 	@echo $(notdir $<)
 	@$(bin2o)
  
--include $(DEPSDIR)/*.d
- 
+#---------------------------------------------------------------------------------
+%.s %.h	: %.png %.grit
+#---------------------------------------------------------------------------------
+	grit $< -fts -o$*
+	
+-include $(DEPENDS)
+
 #---------------------------------------------------------------------------------------
 endif
 #---------------------------------------------------------------------------------------
+

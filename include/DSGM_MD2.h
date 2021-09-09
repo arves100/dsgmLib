@@ -105,4 +105,3 @@ void DSGM_RenderModelFrameInterp(int n, int n2, int m, bool t, const DSGM_Model 
 void DSGM_InitModelInstance(DSGM_ModelInstance *mi, DSGM_Model *mdl);
 void DSGM_SetModelInstanceAnimation(DSGM_ModelInstance *mi, u16 newAnim, bool oneshot);
 void DSGM_UpdateModelInstanceAnimation(DSGM_ModelInstance *mi);
-inline void DSGM_RenderModelInstance(DSGM_ModelInstance *mi);

@@ -3,9 +3,6 @@
 extern FILE *DSGM_save;
 extern char DSGM_saveName[256];
 
-inline bool DSGM_StartSaving(void);
-inline void DSGM_FinishSaving(void);
-
 #define DSGM_WriteRoom() DSGM_WriteRoomFull(&DSGM_Rooms[DSGM_currentRoom])
 void DSGM_WriteRoomFull(DSGM_Room *room);
 

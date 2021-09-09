@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 
 #define DSGM_PlaySoundAdvanced(sound, volume, panning) DSGM_PlaySoundAdvancedFull(&DSGM_Sounds[sound], volume, panning)
 
-inline bool DSGM_BackgroundIsNitro(int background) {
+extern inline bool DSGM_BackgroundIsNitro(int background) {
 	return DSGM_BackgroundIsNitroFull(&DSGM_Backgrounds[background]);
 }
 

@@ -215,7 +215,3 @@ void DSGM_LeaveRoom(DSGM_Room *room) {
 		free(room->objectGroups[screen]);
 	}
 }
-
-inline int DSGM_GetRoomNumberFull(DSGM_Room *rooms, DSGM_Room *room) {
-	return room - rooms;
-}

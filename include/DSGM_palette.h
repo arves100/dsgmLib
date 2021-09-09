@@ -24,16 +24,6 @@ typedef struct {
 
 extern int DSGM_nextPalette[2];
 
-inline void DSGM_UnlockSpritePalette(u8 screen);
-inline void DSGM_LockSpritePalette(u8 screen);
-inline u16 *DSGM_GetPaletteData(u8 screen, DSGM_Palette *palette);
-
-inline int DSGM_NextFreePalette(u8 screen);
-
-inline bool DSGM_PaletteLoaded(u8 screen, DSGM_Palette *palette);
-
-inline bool DSGM_PaletteIsNitro(DSGM_Palette *palette);
-
 void DSGM_ClearPalettes(DSGM_Palette *palettes, int paletteCount);
 
 void DSGM_LoadPaletteFull(u8 screen, DSGM_Palette *Palette);

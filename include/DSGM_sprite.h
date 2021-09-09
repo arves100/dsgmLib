@@ -101,15 +101,6 @@ extern DSGM_Scale DSGM_scales[2][32];
 
 extern const DSGM_Size DSGM_Sizes[3][4];
 
-inline int DSGM_NextFreeSpriteNumber(u8 screen);
-inline int DSGM_NextFreeRotset(u8 screen);
-
-inline int DSGM_GetSpriteWidth(DSGM_Sprite *sprite);
-inline int DSGM_GetSpriteHeight(DSGM_Sprite *sprite);
-
-inline bool DSGM_SpriteIsNitro(DSGM_Sprite *sprite);
-inline bool DSGM_SpriteLoaded(u8 screen, DSGM_Sprite *sprite);
-
 void DSGM_ResetSprites(DSGM_Sprite *sprites, int spriteCount);
 
 void DSGM_LoadSpriteFull(u8 screen, DSGM_Sprite *sprite);

@@ -1,49 +1,5 @@
 #include "DSGM.h"
 
-inline void DSGM_UnlockBackgroundPalette(u8 screen) {
-	switch(screen) {
-		case DSGM_TOP:
-			vramSetBankE(VRAM_E_LCD);
-			break;
-			
-		case DSGM_BOTTOM:
-			vramSetBankH(VRAM_H_LCD);
-			break;
-	}
-}
-
-inline void DSGM_LockBackgroundPalette(u8 screen) {
-	switch(screen) {
-		case DSGM_TOP:
-			vramSetBankE(VRAM_E_BG_EXT_PALETTE);
-			break;
-			
-		case DSGM_BOTTOM:
-			vramSetBankH(VRAM_H_SUB_BG_EXT_PALETTE);
-			break;
-	}
-}
-
-inline unsigned short *DSGM_GetBackgroundPalette(u8 screen, int layerNumber) {
-	return (screen == DSGM_TOP ? VRAM_E_EXT_PALETTE : VRAM_H_EXT_PALETTE)[layerNumber][0];
-}
-
-inline void DSGM_SetScreenColor(u8 screen, u16 color) {
-	switch(screen) {
-		case DSGM_TOP:
-			BG_PALETTE[0] = color;
-			break;
-			
-		case DSGM_BOTTOM:
-			BG_PALETTE_SUB[0] = color;
-			break;
-	}
-}
-
-inline bool DSGM_BackgroundIsNitroFull(DSGM_Background *background) {
-	return !background->tiles;
-}
-
 void DSGM_LoadBackgroundFull(DSGM_Layer *layer) {
 	BgType type = (layer->background->type == DSGM_LARGE_BACKGROUND) ? BgType_Text8bpp : layer->background->type;
 	BgSize size = (layer->background->type == DSGM_LARGE_BACKGROUND) ? BgSize_T_512x512 : layer->background->size;
@@ -146,18 +102,6 @@ void DSGM_ScrollBackgroundFull(DSGM_View *view, DSGM_Layer *layer) {
 	}
 }
 
-inline unsigned int DSGM_GetLayerPriorityFull(DSGM_Layer *layer) {
-	return (unsigned int)bgGetPriority(layer->vramId);
-}
-
-inline void DSGM_SetLayerPriorityFull(DSGM_Layer *layer, unsigned int priority) {
-	bgSetPriority(layer->vramId, priority);
-}
-
-inline BgSize DSGM_GetBGSize(u8 screen, int layerNumber) {
-	return bgState[layerNumber + ((screen == DSGM_BOTTOM) * 4)].size;
-}
-
 int DSGM_GetBGWidth(u8 screen, int layerNumber) {
 	switch(DSGM_GetBGSize(screen, layerNumber)) {
 		case BgSize_R_128x128:
@@ -242,80 +186,4 @@ int DSGM_GetBGHeight(u8 screen, int layerNumber) {
 	}
 	
 	return 256;
-}
-
-inline u16 DSGM_GetTileFull(DSGM_Layer *layer, int x, int y) {
-	u16 *map;
-	if(layer->background->type == DSGM_LARGE_BACKGROUND) {
-		map = layer->largeBackgroundMap;
-	}
-	else {
-		map = bgGetMapPtr(layer->vramId);
-	}
-	
-	// todo: optimise with div and modulus rather than loop
-	while(y > 31) {
-		y -= 32;
-		x += 64;
-	}
-	while(x > 31) {
-		x -= 32;
-		y += 32;
-	}
-	
-	// DSGM_GetBGWidth(layer->screen, layer->layerNumber)
-	return map[y * 32 + x];
-}
-
-inline void DSGM_SetTileFull(DSGM_Layer *layer, int x, int y, u16 tile) {
-	u16 *map;
-	if(layer->background->type == DSGM_LARGE_BACKGROUND) {
-		map = layer->largeBackgroundMap;
-	}
-	else {
-		map = bgGetMapPtr(layer->vramId);
-	}
-	
-	while(y > 31) {
-		y -= 32;
-		x += 64;
-	}
-	while(x > 31) {
-		x -= 32;
-		y += 32;
-	}
-	
-	map[y * 32 + x] = tile;
-}
-
-inline void DSGM_SetTileForceVRAM(DSGM_Layer *layer, int x, int y, u16 tile) {
-	u16 *map = bgGetMapPtr(layer->vramId);
-	
-	if(layer->background->type == DSGM_LARGE_BACKGROUND) {
-		x %= 512 / 8;
-		y %= 512 / 8;
-	}
-	
-	while(y > 31) {
-		y -= 32;
-		x += 64;
-	}
-	while(x > 31) {
-		x -= 32;
-		y += 32;
-	}
-	
-	map[y * DSGM_GetBGWidth(layer->screen, layer->layerNumber) / 16 + x] = tile;
-}
-
-inline void DSGM_SetRotationCenterFull(DSGM_Layer *layer, int x, int y) {
-	bgSetCenter(layer->vramId, x, y);
-}
-
-inline void DSGM_RotateBackgroundFull(DSGM_Layer *layer, int angle) {
-	bgSetRotate(layer->vramId, angle);
-}
-
-inline void DSGM_ScaleBackgroundFull(DSGM_Layer *layer, int x, int y) {
-	bgSetScale(layer->vramId, x, y);
 }

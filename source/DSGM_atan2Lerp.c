@@ -56,7 +56,7 @@ static inline int QDIV(int num, int den, const int bits) {
 // CONSTANTS
 // --------------------------------------------------------------------
 
-static const uint ATAN_ONE = 0x1000, ATAN_FP = 12, ATAN_PI = BRAD_PI;
+static const uint ATAN_ONE = 0x1000, ATAN_FP = 12 /*, ATAN_PI = BRAD_PI*/;
 #define ATANLUT_STRIDE (ATAN_ONE / 0x80)
 static const uint ATANLUT_STRIDE_SHIFT = 5;
 

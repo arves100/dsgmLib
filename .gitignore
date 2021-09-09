@@ -4,3 +4,5 @@ template/*.elf
 examples/*/build/
 examples/*/*.elf
 .DS_Store
+*.nds
+*.a

@@ -1,9 +1,5 @@
 #include "DSGM.h"
 
-inline int DSGM_LargeBackgroundSizeToPixels(DSGM_LARGE_BACKGROUND_SIZES size) {
-	return (size + 1) * 256;
-}
-
 void DSGM_LargeBackgroundCopyScreen(DSGM_Layer *layer) {
 	int tilesLength = DSGM_LargeBackgroundSizeToPixels(layer->background->size) / 8;
 	

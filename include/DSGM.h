@@ -75,3 +75,17 @@ void DSGM_InitRand(void);
 void DSGM_InitFS(void);
 
 void DSGM_Update(void);
+
+#include "DSGM_3D.inl"
+#include "DSGM_largeBackground.inl"
+#include "DSGM_background.inl"
+#include "DSGM_drawable.inl"
+#include "DSGM_MD2.inl"
+#include "DSGM_misc.inl"
+#include "DSGM_sprite.inl"
+#include "DSGM_object.inl"
+#include "DSGM_palette.inl"
+#include "DSGM_quaternion.inl"
+#include "DSGM_room.inl"
+#include "DSGM_saving.inl"
+#include "DSGM_text.inl"

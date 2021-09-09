@@ -17,10 +17,6 @@ typedef struct {
 
 void DSGM_InitStandard3D(void);
 
-inline void DSGM_UseCamera(DSGM_Camera *camera);
-
-inline u64 DSGM_Distance3D(s32 x1, s32 y1, s32 z1, s32 x2, s32 y2, s32 z2);
-
 void DSGM_GetPositionMatrix(struct m4x4 *m);
 vect3D DSGM_MatrixTranslationToVector(m4x4 initialMatrix, m4x4 resultantMatrix);
 

@@ -8,6 +8,8 @@ endif
 
 include $(DEVKITARM)/ds_rules
 
+DSGMWIFI := $(DEVKITPRO)/dsgmDSWiFi/release
+
 # Uncomment for debug mode
 #DSGMDEBUG := -DDEBUG
 
@@ -20,7 +22,7 @@ include $(DEVKITARM)/ds_rules
 TARGET		:=	libdsgm
 BUILD			:=	build
 SOURCES		:=	gfx source data	
-INCLUDES	:=	include build
+INCLUDES	:=	include build $(DSGMWIFI)/include
 
 #---------------------------------------------------------------------------------
 # options for code generation
@@ -30,7 +32,7 @@ ARCH	:=	-mthumb -mthumb-interwork
 CFLAGS	:=	-g -Wall -O2 -fms-extensions\
  			-march=armv5te -mtune=arm946e-s -fomit-frame-pointer\
 			-ffast-math \
-			$(ARCH)
+			$(ARCH) -Werror
 
 CFLAGS	+=	$(INCLUDE) -DARM9 -DBUILDINGLIB $(DSGMDEBUG)
 CXXFLAGS	:= $(CFLAGS) -fno-rtti -fno-exceptions
@@ -42,14 +44,14 @@ LDFLAGS	=	-specs=ds_arm9.specs -g $(ARCH) -Wl,-Map,$(notdir $*.map)
 # any extra libraries we wish to link with the project
 #---------------------------------------------------------------------------------
 #LIBS	:= -lnds9
-LIBS	:= -lnds
+LIBS	:= -lnds -ldsgmdswifi9
  
  
 #---------------------------------------------------------------------------------
 # list of directories containing libraries, this must be the top level containing
 # include and lib
 #---------------------------------------------------------------------------------
-LIBDIRS	:=	$(LIBNDS)
+LIBDIRS	:=	$(LIBNDS) $(DSGMWIFI)
  
 #---------------------------------------------------------------------------------
 # no real need to edit anything past this point unless you need to add additional
