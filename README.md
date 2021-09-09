@@ -66,11 +66,15 @@ Great! We're done.
 
 Getting Started
 ---------------
-[Download dsgmLib](https://github.com/DSGameMaker/dsgmLib/archive/master.zip), and extract the archive to your devkitPro directory (for example `C:\devkitPro`), then rename the directory from `dsgmLib-master` to `dsgmLib`.
+dsgmLib requires a fork of dswifi called dsgmDSWiFi which enables support for local DS to DS multiplayer (NiFi). Download the latest version from [here](https://github.com/arves100/dsgmDSWiFi/archive/master.zip) and extract the archive to your devkitPro directory (for example `C:\devkitPro`), then rename the directory from `dsgmDSWiFi-master` to `dsgmDSWiFi`.
 
-Additionally, dsgmLib requires a fork of dswifi called dsgmDSWiFi which enables support for local DS to DS multiplayer (NiFi). Download the latest version from [here](https://github.com/DSGameMaker/dsgmDSWiFi/releases). Extract the files in `include` to your libnds `include` directory (for example `C:\devkitPro\libnds\include`) and the files in `lib` to your libnds `lib` directory (for example `C:\devkitPro\libnds\lib\`).
+Open your terminal with devkitpro (msys2 on Windows) and type `make` on the dsgmDSWiFi directory.
 
-Now open a terminal in the dsgmLib directory. Run `ls` to (hopefully) print this list of files and directories:
+[Download dsgmLib](https://github.com/arves100/dsgmLib/archive/master.zip), and extract the archive to your devkitPro directory (for example `C:\devkitPro`), then rename the directory from `dsgmLib-master` to `dsgmLib`.
+
+Now open a terminal in the dsgmLib directory and type `make` on the dsgmLib directory.
+
+Run `ls` to (hopefully) print this list of files and directories:
 
     examples
     include
@@ -115,13 +119,9 @@ You'll see `Collision.nds` is generated which you can run with an emulator like 
 Additionally, you can compile all of the examples at once by running `make` on the `examples` directory.
 
 ## Converting graphics and models
-Use [dsgmGfx](https://github.com/CTurt/dsgmGfx/releases/) to convert graphics in the `gfx` directory of a project. Copy the resulting binaries to either the `data` directory (to be loaded from RAM), or the `nitrofiles` directory (to be loaded from NitroFS).
+Use [dsgmGfx](https://github.com/CTurt/dsgmGfx/) to convert graphics in the `gfx` directory of a project. Copy the resulting binaries to either the `data` directory (to be loaded from RAM), or the `nitrofiles` directory (to be loaded from NitroFS).
 
 Use [DisplayMan](https://gbatemp.net/threads/displayman.291517/) to convert models from `obj` to `bin` format, this is just for static models that you don't want to use the `md2` format for. Using the `md2` format for your models is preferable since they do not need to be converted, and will support animation.
-
-Recompiling the Library
----------
-If you make changes to the library's source code (dsgmLib directory), you'll need to recompile it by running `make` in the directory. Now recompile any projects that link against the library.
 
 FAQs
 ---------
@@ -181,10 +181,6 @@ If `me` is deleted, the event will end, so the text will never be shown.
 
 If you understand the above examples, you should run into no problems creating and deleting object instances.
 
-Getting Help
-------------
-[There's a forum](http://dsgamemaker.com/dsgmforum/viewforum.php?f=31) specifically for discussing bugs/feature requests, or [create a GitHub issue](https://github.com/DSGameMaker/dsgmLib/issues/new).
-
 Acknowledgements
 ------------
 - devkitARM and libnds by [devkitPro team](http://devkitpro.org/),
@@ -192,3 +188,4 @@ Acknowledgements
 - dswifi by [Stephen Stair](http://akkit.org/dswifi/),
 - MD2 loading code by [David Henry](http://tfc.duke.free.fr/),
 - MD2 DS optimisation by [Smealum](https://github.com/smealum/portalDS),
+- original dsgmDSWifi and dsgmLib by [DSGameMaker team](https://github.com/DSGameMaker/dsgmlib)
